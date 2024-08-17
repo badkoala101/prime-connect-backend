@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\LoanApplicationController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/apply-loan', [LoanApplicationController::class, 'store']);
     Route::get('/loan-applications', [LoanApplicationController::class, 'index']);
     Route::get('/loan-status', [LoanApplicationController::class, 'index']);
+
+    //Notifications
+    Route::get('/notifications', [NotificationController::class, 'index']);
 });
 
 // Testing items if it works

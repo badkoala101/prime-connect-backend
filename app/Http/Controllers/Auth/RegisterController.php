@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens; // Import Sanctum trait
+use App\Models\Notification;
 
 class RegisterController extends Controller
 {
@@ -36,6 +37,12 @@ class RegisterController extends Controller
 
         // Create a token for the user
         $token = $user->createToken('Personal Access Token')->plainTextToken;
+        // Create a notification
+        Notification::create([
+            'user_id' => $user->id, // Link the notification to the new user
+            'message' => 'Welcome to Prime Connect, ' . $user->name . '! Your account has been successfully created.',
+        //     'read' => false,
+        ]);
 
         return response()->json([
             'user' => $user,
