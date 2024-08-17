@@ -6,8 +6,6 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\LoanApplicationController;
 
-
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,19 +17,22 @@ use App\Http\Controllers\LoanApplicationController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-//testing items if it works
-Route::get('/items', [ItemController::class, 'index']);
-Route::post('/items', [ItemController::class, 'store']);
-
-//signup and signin
+// Public routes
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [RegisterController::class, 'login']);
 
-// Loan Application
-Route::post('/apply-loan', [LoanApplicationController::class, 'store']);
-Route::get('/loan-applications', [LoanApplicationController::class, 'index']);
-Route::get('/loan-status', [LoanApplicationController::class, 'index']);
+// Routes that require authentication
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    // Loan Application
+    Route::post('/apply-loan', [LoanApplicationController::class, 'store']);
+    Route::get('/loan-applications', [LoanApplicationController::class, 'index']);
+    Route::get('/loan-status', [LoanApplicationController::class, 'index']);
+});
+
+// Testing items if it works
+Route::get('/items', [ItemController::class, 'index']);
+Route::post('/items', [ItemController::class, 'store']);

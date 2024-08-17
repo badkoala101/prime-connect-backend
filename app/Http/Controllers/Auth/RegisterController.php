@@ -8,9 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\HasApiTokens; // Import Sanctum trait
 
 class RegisterController extends Controller
 {
+    use HasApiTokens; // Use Sanctum trait
+
     public function register(Request $request)
     {
         // Add 'name' to the validation rules
@@ -31,7 +34,13 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return response()->json($user, 201);
+        // Create a token for the user
+        $token = $user->createToken('Personal Access Token')->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token
+        ], 201);
     }
 
     public function login(Request $request)
@@ -49,12 +58,16 @@ class RegisterController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            return response()->json($user, 200);
+
+            // Create a token for the user
+            $token = $user->createToken('Personal Access Token')->plainTextToken;
+
+            return response()->json([
+                'user' => $user,
+                'token' => $token
+            ], 200);
         } else {
             return response()->json(['error' => 'Invalid credentials'], 401);
         }
     }
 }
-
-
-

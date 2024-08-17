@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\LoanApplication;
+use Illuminate\Support\Facades\Auth;
 
 class LoanApplicationController extends Controller
 {
@@ -26,8 +27,12 @@ class LoanApplicationController extends Controller
             'amount' => 'required|numeric|min:0',
         ]);
 
+        // Get the authenticated user
+        $user = Auth::user();
+
         // Create a new loan application
         $loanApplication = LoanApplication::create([
+            'user_id' => $user->id, // Associate loan application with the authenticated user
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'address' => $validatedData['address'],
@@ -45,14 +50,17 @@ class LoanApplicationController extends Controller
     }
 
     /**
-     * Fetch all loan applications.
+     * Fetch all loan applications for the authenticated user.
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        // Retrieve all loan applications
-        $loanApplications = LoanApplication::all();
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Retrieve loan applications for the authenticated user
+        $loanApplications = LoanApplication::where('user_id', $user->id)->get();
 
         // Return a success response with loan applications data
         return response()->json($loanApplications);

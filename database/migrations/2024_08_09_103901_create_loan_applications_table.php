@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,6 +16,7 @@ class CreateLoanApplicationsTable extends Migration
     {
         Schema::create('loan_applications', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id'); // Add user_id column
             $table->string('name');
             $table->string('email');
             $table->string('address');
@@ -23,6 +25,11 @@ class CreateLoanApplicationsTable extends Migration
             $table->unsignedBigInteger('bank_account');
             $table->decimal('amount', 15, 2);
             $table->timestamps();
+
+            // Set up foreign key constraint
+            $table->foreign('user_id')
+                  ->references('id')->on('users')
+                  ->onDelete('cascade');
         });
     }
 
@@ -33,7 +40,13 @@ class CreateLoanApplicationsTable extends Migration
      */
     public function down()
     {
+        Schema::table('loan_applications', function (Blueprint $table) {
+            // Drop foreign key constraint and column
+            $table->dropForeign(['user_id']);
+        });
+
         Schema::dropIfExists('loan_applications');
     }
 }
+
 
