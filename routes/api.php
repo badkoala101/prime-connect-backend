@@ -28,7 +28,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-
+    //new verify id
+    Route::post('/submit-personal-info', [VerifyIdController::class, 'storePersonalInfo']);
+    Route::post('/submit-address-info', [VerifyIdController::class, 'storeAddressInfo']);
+    Route::get('/user-info', [VerifyIdController::class, 'fetchUserInfo']);
     //verify id
     Route::post('/personal-info', [VerifyIdController::class, 'storePersonalInfo']);
 Route::post('/address-info', [VerifyIdController::class, 'storeAddressInfo']);

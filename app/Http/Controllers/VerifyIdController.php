@@ -11,6 +11,7 @@ class VerifyIdController extends Controller
 {
     public function storePersonalInfo(Request $request)
     {
+        // Validate request
         $request->validate([
             'first_name' => 'required|string|max:255',
             'middle_name' => 'nullable|string|max:255',
@@ -20,6 +21,14 @@ class VerifyIdController extends Controller
             'marital_status' => 'nullable|string',
         ]);
 
+        // Check if the user already submitted their personal info
+        $existingPersonalInfo = PersonalInformation::where('user_id', Auth::id())->first();
+
+        if ($existingPersonalInfo) {
+            return response()->json(['error' => 'You have already submitted your personal information.'], 403);
+        }
+
+        // Store personal information
         $personalInfo = PersonalInformation::create([
             'user_id' => Auth::id(),
             'first_name' => $request->first_name,
@@ -30,11 +39,12 @@ class VerifyIdController extends Controller
             'marital_status' => $request->marital_status,
         ]);
 
-        return response()->json($personalInfo);
+        return response()->json(['personal_info' => $personalInfo]);
     }
 
     public function storeAddressInfo(Request $request)
     {
+        // Validate request
         $request->validate([
             'country' => 'required|string|max:255',
             'region' => 'required|string|max:255',
@@ -48,6 +58,14 @@ class VerifyIdController extends Controller
             'address_duration' => 'required|in:permanent,temporary',
         ]);
 
+        // Check if the user already submitted their address info
+        $existingAddressInfo = Address::where('user_id', Auth::id())->first();
+
+        if ($existingAddressInfo) {
+            return response()->json(['error' => 'You have already submitted your address information.'], 403);
+        }
+
+        // Store address information
         $addressInfo = Address::create([
             'user_id' => Auth::id(),
             'country' => $request->country,
@@ -62,18 +80,18 @@ class VerifyIdController extends Controller
             'address_duration' => $request->address_duration,
         ]);
 
-        return response()->json($addressInfo);
+        return response()->json(['address_info' => $addressInfo]);
     }
 
-    public function showPersonalInfo()
+    public function fetchUserInfo()
     {
         $personalInfo = PersonalInformation::where('user_id', Auth::id())->first();
-        return response()->json($personalInfo);
-    }
-
-    public function showAddressInfo()
-    {
         $addressInfo = Address::where('user_id', Auth::id())->first();
-        return response()->json($addressInfo);
+
+        return response()->json([
+            'personal_info' => $personalInfo,
+            'address_info' => $addressInfo,
+        ]);
     }
 }
+
