@@ -6,6 +6,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\LoanApplicationController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\VerifyIdController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
+    //verify id
+    Route::post('/personal-info', [VerifyIdController::class, 'storePersonalInfo']);
+Route::post('/address-info', [VerifyIdController::class, 'storeAddressInfo']);
+Route::get('/personal-info', [VerifyIdController::class, 'showPersonalInfo']);
+Route::get('/address-info', [VerifyIdController::class, 'showAddressInfo']);
 
     // Loan Application
     Route::post('/apply-loan', [LoanApplicationController::class, 'store']);
