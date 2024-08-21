@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens; // Import Sanctum trait
 use App\Models\Notification;
+use Jenssegers\Agent\Agent; // Add this library for device detection
 
 class RegisterController extends Controller
 {
@@ -43,6 +44,11 @@ class RegisterController extends Controller
             'message' => 'Welcome to Prime Connect, ' . $user->name . '! Your account has been successfully created.',
         //     'read' => false,
         ]);
+        Notification::create([
+            'user_id' => $user->id, 
+            'message' => 'Hi '. $user->name .' Please finish up filling Verifiy id section to use our products.',
+        //     'read' => false,
+        ]);
 
         return response()->json([
             'user' => $user,
@@ -68,6 +74,23 @@ class RegisterController extends Controller
 
             // Create a token for the user
             $token = $user->createToken('Personal Access Token')->plainTextToken;
+            
+            // Detect the device
+            $agent = new Agent();
+            $deviceType = $agent->isMobile() ? 'Mobile' : ($agent->isTablet() ? 'Tablet' : 'Desktop');
+            $platform = $agent->platform();
+            $browser = $agent->browser();
+
+            // Create a notification with the device name
+            Notification::create([
+                'user_id' => $user->id,
+                'message' => 'You have signed in from a ' . $deviceType . ' device using ' . $platform . ' and ' . $browser .'.',
+            ]);
+            Notification::create([
+                'user_id' => $user->id, 
+                'message' => 'Please finish up filling Verifiy id section to use our products.',
+            //     'read' => false,
+            ]);
 
             return response()->json([
                 'user' => $user,

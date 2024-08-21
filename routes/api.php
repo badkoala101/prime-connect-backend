@@ -23,6 +23,10 @@ use App\Http\Controllers\VerifyIdController;
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [RegisterController::class, 'login']);
 
+// Delete and update notification
+Route::patch('/notifications/{id}/favorite', [NotificationController::class, 'updateFavorite'])->middleware('auth:sanctum');
+Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->middleware('auth:sanctum');
+
 // Routes that require authentication
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {

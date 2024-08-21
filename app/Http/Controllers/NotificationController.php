@@ -17,4 +17,32 @@ class NotificationController extends Controller
 
         return response()->json($notifications);
     }
+    public function updateFavorite(Request $request, $id)
+    {
+        $notification = Notification::find($id);
+
+        if (!$notification) {
+            return response()->json(['error' => 'Notification not found'], 404);
+        }
+
+        // Update the favorite status
+        $notification->favorite = $request->input('favorite', !$notification->favorite);
+        $notification->save();
+
+        return response()->json($notification, 200);
+    }
+    
+    public function destroy($id)
+    {
+        $notification = Notification::find($id);
+
+        if (!$notification) {
+            return response()->json(['error' => 'Notification not found'], 404);
+        }
+
+        // Delete the notification
+        $notification->delete();
+
+        return response()->json(['message' => 'Notification deleted'], 200);
+    }
 }
