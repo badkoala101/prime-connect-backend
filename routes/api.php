@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\LoanApplicationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\VerifyIdController;
+use App\Http\Controllers\AdminAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,7 @@ use App\Http\Controllers\VerifyIdController;
 // Public routes
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [RegisterController::class, 'login']);
+Route::post('/admin/login', [AdminAuthController::class, 'login']);
 
 // Delete and update notification
 Route::patch('/notifications/{id}/favorite', [NotificationController::class, 'updateFavorite'])->middleware('auth:sanctum');
