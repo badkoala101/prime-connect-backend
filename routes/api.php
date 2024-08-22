@@ -8,6 +8,7 @@ use App\Http\Controllers\LoanApplicationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\VerifyIdController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,25 +35,34 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    //new verify id
+
+    // Verify ID routes
     Route::post('/submit-personal-info', [VerifyIdController::class, 'storePersonalInfo']);
     Route::post('/submit-address-info', [VerifyIdController::class, 'storeAddressInfo']);
     Route::get('/user-info', [VerifyIdController::class, 'fetchUserInfo']);
-    //verify id
     Route::post('/personal-info', [VerifyIdController::class, 'storePersonalInfo']);
-Route::post('/address-info', [VerifyIdController::class, 'storeAddressInfo']);
-Route::get('/personal-info', [VerifyIdController::class, 'showPersonalInfo']);
-Route::get('/address-info', [VerifyIdController::class, 'showAddressInfo']);
+    Route::post('/address-info', [VerifyIdController::class, 'storeAddressInfo']);
+    Route::get('/personal-info', [VerifyIdController::class, 'showPersonalInfo']);
+    Route::get('/address-info', [VerifyIdController::class, 'showAddressInfo']);
 
-    // Loan Application
+    // Loan Application routes
     Route::post('/apply-loan', [LoanApplicationController::class, 'store']);
     Route::get('/loan-applications', [LoanApplicationController::class, 'index']);
     Route::get('/loan-status', [LoanApplicationController::class, 'index']);
 
-    //Notifications
+    // Notification routes
     Route::get('/notifications', [NotificationController::class, 'index']);
 });
 
 // Testing items if it works
 Route::get('/items', [ItemController::class, 'index']);
 Route::post('/items', [ItemController::class, 'store']);
+
+// Admin routes for user management
+Route::prefix('admin')->group(function () {
+    Route::get('/users', [AdminUserController::class, 'index'])->middleware('auth:sanctum');
+    Route::get('/users/{id}', [AdminUserController::class, 'show'])->middleware('auth:sanctum');
+    Route::post('/users', [AdminUserController::class, 'store'])->middleware('auth:sanctum');
+    Route::put('/users/{id}', [AdminUserController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->middleware('auth:sanctum');
+});
