@@ -19,6 +19,9 @@ class VerifyIdController extends Controller
             'gender' => 'required|in:male,female,other',
             'birth_date' => 'required|date',
             'marital_status' => 'nullable|string',
+            'phone_number' => 'required|string|max:15',
+            'id_number' => 'required|string|max:255',
+            'account_number' => 'required|string|max:15',
         ]);
 
         // Check if the user already submitted their personal info
@@ -34,9 +37,13 @@ class VerifyIdController extends Controller
             'first_name' => $request->first_name,
             'middle_name' => $request->middle_name,
             'last_name' => $request->last_name,
+            'email' => $request->email,
             'gender' => $request->gender,
             'birth_date' => $request->birth_date,
             'marital_status' => $request->marital_status,
+            'phone_number' => $request->phone_number,
+            'id_number' => $request->id_number,
+            'account_number' => $request->account_number,
         ]);
 
         return response()->json(['personal_info' => $personalInfo]);

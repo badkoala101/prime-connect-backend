@@ -5,24 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PersonalInformation extends Model
+class Loan extends Model
 {
     use HasFactory;
-    protected $table = 'personal_informations';
+
     protected $fillable = [
         'user_id',
-        'first_name',
-        'middle_name',
-        'last_name',
+        'name',
         'email',
-        'gender',
-        'birth_date',
-        'marital_status',
+        'address',
         'phone_number',
-        'id_number',
-        'account_number',
+        'kebele_id',
+        'bank_account',
+        'loan_amount',
+        'status',
     ];
+    
 
+    // Define the relationship with the User model
     public function user()
     {
         return $this->belongsTo(User::class);
