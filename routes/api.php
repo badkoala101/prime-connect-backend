@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\VerifyIdController;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminUserController;
 
 
 /*
@@ -23,6 +25,7 @@ use App\Http\Controllers\VerifyIdController;
 // Public routes
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [RegisterController::class, 'login']);
+Route::post('/admin/login', [AdminAuthController::class, 'login']);
 
 // Delete and update notification
 Route::patch('/notifications/{id}/favorite', [NotificationController::class, 'updateFavorite'])->middleware('auth:sanctum');
@@ -33,16 +36,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    //new verify id
+
+    // Verify ID routes
     Route::post('/submit-personal-info', [VerifyIdController::class, 'storePersonalInfo']);
     Route::post('/submit-address-info', [VerifyIdController::class, 'storeAddressInfo']);
     Route::get('/user-info', [VerifyIdController::class, 'fetchUserInfo']);
-    //verify id
     Route::post('/personal-info', [VerifyIdController::class, 'storePersonalInfo']);
-Route::post('/address-info', [VerifyIdController::class, 'storeAddressInfo']);
-Route::get('/personal-info', [VerifyIdController::class, 'showPersonalInfo']);
-Route::get('/address-info', [VerifyIdController::class, 'showAddressInfo']);
+    Route::post('/address-info', [VerifyIdController::class, 'storeAddressInfo']);
+    Route::get('/personal-info', [VerifyIdController::class, 'showPersonalInfo']);
+    Route::get('/address-info', [VerifyIdController::class, 'showAddressInfo']);
 
+<<<<<<< HEAD
     // Loan Application
     Route::middleware('auth:sanctum')->post('/apply-loan', [LoanController::class, 'apply']);
     
@@ -50,12 +54,30 @@ Route::get('/address-info', [VerifyIdController::class, 'showAddressInfo']);
     Route::get('/loan-status', [LoanController::class, 'index']);
    
 
+=======
+    // Loan Application routes
+    Route::post('/apply-loan', [LoanApplicationController::class, 'store']);
+    Route::get('/loan-applications', [LoanApplicationController::class, 'index']);
+    Route::get('/loan-status', [LoanApplicationController::class, 'index']);
+>>>>>>> 45e35f1fc06dc08b531d6b4b702bf3cf0c076064
 
-    //Notifications
+    // Notification routes
     Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::patch('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
 });
 
 // Testing items if it works
 Route::get('/items', [ItemController::class, 'index']);
 Route::post('/items', [ItemController::class, 'store']);
 
+<<<<<<< HEAD
+=======
+// Admin routes for user management
+Route::prefix('admin')->group(function () {
+    Route::get('/users', [AdminUserController::class, 'index'])->middleware('auth:sanctum');
+    Route::get('/users/{id}', [AdminUserController::class, 'show'])->middleware('auth:sanctum');
+    Route::post('/users', [AdminUserController::class, 'store'])->middleware('auth:sanctum');
+    Route::put('/users/{id}', [AdminUserController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->middleware('auth:sanctum');
+});
+>>>>>>> 45e35f1fc06dc08b531d6b4b702bf3cf0c076064

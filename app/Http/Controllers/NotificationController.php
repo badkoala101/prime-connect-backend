@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class NotificationController extends Controller
 {
@@ -13,10 +14,32 @@ class NotificationController extends Controller
         $user = Auth::user();
 
         // Fetch notifications for the authenticated user
-        $notifications = Notification::where('user_id', $user->id)->get();
+        $notifications = Notification::where('user_id', $user->id)
+                                  ->orderBy('created_at', 'desc')
+                                  ->get()
+                                  ->map(function($notification) {
+                                      $notification->time = $notification->created_at->format('H:i');
+                                      return $notification;
+                                  });
 
         return response()->json($notifications);
     }
+
+    public function markAsRead($id)
+    {
+        $notification = Notification::find($id);
+
+        if ($notification) {
+            $notification->read = true;
+            $notification->save();
+
+            return response()->json(['message' => 'Notification marked as read'], 200);
+        } else {
+            return response()->json(['message' => 'Notification not found'], 404);
+        }
+    }
+
+
     public function updateFavorite(Request $request, $id)
     {
         $notification = Notification::find($id);
@@ -31,6 +54,7 @@ class NotificationController extends Controller
 
         return response()->json($notification, 200);
     }
+
     
     public function destroy($id)
     {

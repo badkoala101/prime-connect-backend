@@ -42,12 +42,12 @@ class RegisterController extends Controller
         Notification::create([
             'user_id' => $user->id, // Link the notification to the new user
             'message' => 'Welcome to Prime Connect, ' . $user->name . '! Your account has been successfully created.',
-        //     'read' => false,
+            'read' => false,
         ]);
         Notification::create([
             'user_id' => $user->id, 
             'message' => 'Hi '. $user->name .' Please finish up filling Verifiy id section to use our products.',
-        //     'read' => false,
+            'read' => false,
         ]);
 
         return response()->json([
@@ -84,12 +84,8 @@ class RegisterController extends Controller
             // Create a notification with the device name
             Notification::create([
                 'user_id' => $user->id,
-                'message' => 'You have signed in from a ' . $deviceType . ' device using ' . $platform . ' and ' . $browser .'.',
-            ]);
-            Notification::create([
-                'user_id' => $user->id, 
-                'message' => 'Please finish up filling Verifiy id section to use our products.',
-            //     'read' => false,
+                'message' => 'You have signed in from a ' . $deviceType . ' device using ' . $platform . ' on ' . $browser .' browser.',
+                'read' => false,
             ]);
 
             return response()->json([
