@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\LoanApplicationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\VerifyIdController;
+use App\Http\Controllers\BankAccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,9 @@ Route::get('/address-info', [VerifyIdController::class, 'showAddressInfo']);
 
     //Notifications
     Route::get('/notifications', [NotificationController::class, 'index']);
+    //check balance
+    Route::get('/checkbalance', [BankAccountController::class, 'check']);
+    
 });
 
 // Testing items if it works
