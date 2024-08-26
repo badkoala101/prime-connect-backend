@@ -90,10 +90,23 @@ class VerifyIdController extends Controller
         return response()->json(['address_info' => $addressInfo]);
     }
 
-    public function fetchUserInfo()
+    public function fetchUserInfo($id)
     {
-        $personalInfo = PersonalInformation::where('user_id', Auth::id())->first();
-        $addressInfo = Address::where('user_id', Auth::id())->first();
+        // Retrieve personal and address information based on the provided user ID
+        $personalInfo = PersonalInformation::where('user_id', $id)->first();
+        $addressInfo = Address::where('user_id', $id)->first();
+
+        // Return the information as a JSON response
+        return response()->json([
+            'personal_info' => $personalInfo,
+            'address_info' => $addressInfo,
+        ]);
+    }
+    public function fetchLoggedInUserInfo()
+    {
+        $userId = Auth::id();
+        $personalInfo = PersonalInformation::where('user_id', $userId)->first();
+        $addressInfo = Address::where('user_id', $userId)->first();
 
         return response()->json([
             'personal_info' => $personalInfo,
