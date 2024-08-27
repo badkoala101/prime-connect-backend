@@ -9,6 +9,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\VerifyIdController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\AdminLoanController;
 
 
 /*
@@ -70,4 +71,11 @@ Route::prefix('admin')->group(function () {
     Route::post('/users', [AdminUserController::class, 'store'])->middleware('auth:sanctum');
     Route::put('/users/{id}', [AdminUserController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->middleware('auth:sanctum');
+
+     // Loan management routes
+     Route::get('/loans', [AdminLoanController::class, 'index'])->middleware('auth:sanctum');
+     Route::get('/loans/{id}', [AdminLoanController::class, 'show'])->middleware('auth:sanctum');
+     Route::post('/loans', [AdminLoanController::class, 'store'])->middleware('auth:sanctum');
+     Route::put('/loans/{id}', [AdminLoanController::class, 'update'])->middleware('auth:sanctum');
+     Route::delete('/loans/{id}', [AdminLoanController::class, 'destroy'])->middleware('auth:sanctum');
 });
