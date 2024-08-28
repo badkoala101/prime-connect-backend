@@ -65,6 +65,12 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/items', [ItemController::class, 'index']);
 Route::post('/items', [ItemController::class, 'store']);
 
+//Deboo 
+Route::post('/funds/{id}/contribute', [FundController::class, 'contribute']);
+Route::post('/funds', [FundController::class, 'store']);
+Route::get('/funds', [FundController:: class, 'index']);
+
+
 
 // Admin routes for user management
 Route::prefix('admin')->group(function () {
