@@ -10,7 +10,8 @@ use App\Http\Controllers\VerifyIdController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\FundController;
-
+use App\Http\Controllers\AdminLoanController;
+use App\Http\Controllers\BankAccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,29 +42,26 @@ Route::middleware('auth:sanctum')->group(function () {
     // Verify ID routes
     Route::post('/submit-personal-info', [VerifyIdController::class, 'storePersonalInfo']);
     Route::post('/submit-address-info', [VerifyIdController::class, 'storeAddressInfo']);
-    Route::get('/user-info', [VerifyIdController::class, 'fetchUserInfo']);
+    Route::get('/user-info', [VerifyIdController::class, 'fetchLoggedInUserInfo']);
     Route::post('/personal-info', [VerifyIdController::class, 'storePersonalInfo']);
     Route::post('/address-info', [VerifyIdController::class, 'storeAddressInfo']);
     Route::get('/personal-info', [VerifyIdController::class, 'showPersonalInfo']);
     Route::get('/address-info', [VerifyIdController::class, 'showAddressInfo']);
 
-
+<<<<<<< HEAD
     // Loan Application
     Route::middleware('auth:sanctum')->post('/apply-loan', [LoanController::class, 'apply']);
     
     Route::get('/loan-applications', [LoanController::class, 'index']);
     Route::get('/loan-status', [LoanController::class, 'index']);
    
-    Route::middleware('auth:sanctum')->group(function () {
-    // Deboo Fund routes
-    Route::post('/funds', [FundController::class, 'store']);
-    Route::get('/funds', [FundController::class, 'index']);
-    });
-    
 
-   
-    
-
+=======
+    // Loan Application routes
+    Route::post('/apply-loan', [LoanApplicationController::class, 'store']);
+    Route::get('/loan-applications', [LoanApplicationController::class, 'index']);
+    Route::get('/loan-status', [LoanApplicationController::class, 'index']);
+>>>>>>> 45e35f1fc06dc08b531d6b4b702bf3cf0c076064
 
     // Notification routes
     Route::get('/notifications', [NotificationController::class, 'index']);
@@ -74,21 +72,14 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/items', [ItemController::class, 'index']);
 Route::post('/items', [ItemController::class, 'store']);
 
- // Deboo Fund routes
- Route::post('/funds/{id}/contribute', [FundController::class, 'contribute']);
-
- Route::post('/funds', [FundController::class, 'store']);
- Route::get('/funds', [FundController::class, 'index']);
- 
-
-
-
+<<<<<<< HEAD
+=======
 // Admin routes for user management
 Route::prefix('admin')->group(function () {
     Route::get('/users', [AdminUserController::class, 'index'])->middleware('auth:sanctum');
-    Route::get('/users/{id}', [AdminUserController::class, 'show'])->middleware('auth:sanctum');
+    Route::get('/user-info/{id}', [VerifyIdController::class, 'fetchUserInfo'])->middleware('auth:sanctum');
     Route::post('/users', [AdminUserController::class, 'store'])->middleware('auth:sanctum');
     Route::put('/users/{id}', [AdminUserController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->middleware('auth:sanctum');
 });
-
+>>>>>>> 45e35f1fc06dc08b531d6b4b702bf3cf0c076064

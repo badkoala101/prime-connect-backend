@@ -35,4 +35,14 @@ class LoanController extends Controller
 
         return response()->json(['message' => 'Loan application submitted successfully!', 'loan' => $loan], 201);
     }
+
+    // Add the index method to fetch all loans for the authorized user
+    public function index()
+    {
+        // Fetch all loans associated with the authenticated user
+        $loans = Loan::where('user_id', Auth::id())->get();
+
+        // Return the loans as a JSON response
+        return response()->json($loans, 200);
+    }
 }
