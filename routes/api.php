@@ -10,7 +10,7 @@ use App\Http\Controllers\VerifyIdController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminLoanController;
-
+use App\Http\Controllers\BankAccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +53,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/loan-applications', [LoanController::class, 'index']);
     Route::get('/loan-status', [LoanController::class, 'index']);
    
+    //coopy
+    Route::get('/balance', [BankAccountController::class, 'check']);
 
 
     // Notification routes
