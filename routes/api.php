@@ -48,7 +48,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/personal-info', [VerifyIdController::class, 'showPersonalInfo']);
     Route::get('/address-info', [VerifyIdController::class, 'showAddressInfo']);
 
-<<<<<<< HEAD
     // Loan Application
     Route::middleware('auth:sanctum')->post('/apply-loan', [LoanController::class, 'apply']);
     
@@ -56,13 +55,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/loan-status', [LoanController::class, 'index']);
    
 
-=======
-    // Loan Application routes
-    Route::post('/apply-loan', [LoanApplicationController::class, 'store']);
-    Route::get('/loan-applications', [LoanApplicationController::class, 'index']);
-    Route::get('/loan-status', [LoanApplicationController::class, 'index']);
->>>>>>> 45e35f1fc06dc08b531d6b4b702bf3cf0c076064
-
+    
     // Notification routes
     Route::get('/notifications', [NotificationController::class, 'index']);
     Route::patch('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
@@ -72,8 +65,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/items', [ItemController::class, 'index']);
 Route::post('/items', [ItemController::class, 'store']);
 
-<<<<<<< HEAD
-=======
+
 // Admin routes for user management
 Route::prefix('admin')->group(function () {
     Route::get('/users', [AdminUserController::class, 'index'])->middleware('auth:sanctum');
@@ -82,4 +74,4 @@ Route::prefix('admin')->group(function () {
     Route::put('/users/{id}', [AdminUserController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->middleware('auth:sanctum');
 });
->>>>>>> 45e35f1fc06dc08b531d6b4b702bf3cf0c076064
+
