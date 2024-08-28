@@ -9,6 +9,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\VerifyIdController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\FundController;
 
 
 /*
@@ -46,20 +47,23 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/personal-info', [VerifyIdController::class, 'showPersonalInfo']);
     Route::get('/address-info', [VerifyIdController::class, 'showAddressInfo']);
 
-<<<<<<< HEAD
+
     // Loan Application
     Route::middleware('auth:sanctum')->post('/apply-loan', [LoanController::class, 'apply']);
     
     Route::get('/loan-applications', [LoanController::class, 'index']);
     Route::get('/loan-status', [LoanController::class, 'index']);
    
+    Route::middleware('auth:sanctum')->group(function () {
+    // Deboo Fund routes
+    Route::post('/funds', [FundController::class, 'store']);
+    Route::get('/funds', [FundController::class, 'index']);
+    });
+    
 
-=======
-    // Loan Application routes
-    Route::post('/apply-loan', [LoanApplicationController::class, 'store']);
-    Route::get('/loan-applications', [LoanApplicationController::class, 'index']);
-    Route::get('/loan-status', [LoanApplicationController::class, 'index']);
->>>>>>> 45e35f1fc06dc08b531d6b4b702bf3cf0c076064
+   
+    
+
 
     // Notification routes
     Route::get('/notifications', [NotificationController::class, 'index']);
@@ -70,8 +74,15 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/items', [ItemController::class, 'index']);
 Route::post('/items', [ItemController::class, 'store']);
 
-<<<<<<< HEAD
-=======
+ // Deboo Fund routes
+ Route::post('/funds/{id}/contribute', [FundController::class, 'contribute']);
+
+ Route::post('/funds', [FundController::class, 'store']);
+ Route::get('/funds', [FundController::class, 'index']);
+ 
+
+
+
 // Admin routes for user management
 Route::prefix('admin')->group(function () {
     Route::get('/users', [AdminUserController::class, 'index'])->middleware('auth:sanctum');
@@ -80,4 +91,4 @@ Route::prefix('admin')->group(function () {
     Route::put('/users/{id}', [AdminUserController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->middleware('auth:sanctum');
 });
->>>>>>> 45e35f1fc06dc08b531d6b4b702bf3cf0c076064
+
