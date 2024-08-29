@@ -14,6 +14,7 @@ class Notification extends Model
         'message',
         'read',
         'favorite',
+        'archived',
     ];
 
     // Define the relationship with the User model

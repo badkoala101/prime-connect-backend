@@ -59,6 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Notification routes
     Route::get('/notifications', [NotificationController::class, 'index']);
     Route::patch('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+    Route::patch('/notifications/{id}/archive', [NotificationController::class, 'updateArchived']);
 });
 
 // Testing items if it works

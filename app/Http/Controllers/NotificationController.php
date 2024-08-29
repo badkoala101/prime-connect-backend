@@ -55,6 +55,21 @@ class NotificationController extends Controller
         return response()->json($notification, 200);
     }
 
+    public function updateArchived(Request $request, $id)
+    {
+        $notification = Notification::find($id);
+
+        if (!$notification) {
+            return response()->json(['error' => 'Notification not found'], 404);
+        }
+
+        // Update the archived status
+        $notification->archived = $request->input('archived', !$notification->archived);
+        $notification->save();
+
+        return response()->json($notification, 200);
+    }
+
     
     public function destroy($id)
     {

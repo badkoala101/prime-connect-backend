@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PersonalInformation;
 use App\Models\Address;
+use App\Models\Notification; // Import Notification model
 use Auth;
 
 class VerifyIdController extends Controller
@@ -87,6 +88,13 @@ class VerifyIdController extends Controller
             'address_duration' => $request->address_duration,
         ]);
 
+        // Create notification when address info is successfully stored
+        Notification::create([
+            'user_id' => Auth::id(),
+            'message' => 'Thank you for completing the Verify ID form. You can now use our products.',
+            'read' => false,
+        ]);
+
         return response()->json(['address_info' => $addressInfo]);
     }
 
@@ -102,6 +110,7 @@ class VerifyIdController extends Controller
             'address_info' => $addressInfo,
         ]);
     }
+
     public function fetchLoggedInUserInfo()
     {
         $userId = Auth::id();
@@ -114,4 +123,3 @@ class VerifyIdController extends Controller
         ]);
     }
 }
-
